@@ -4,13 +4,13 @@ from .models import Course, Lesson, Instructor, Learner
 from .models import Question, Choice
 
 # <HINT> Register QuestionInline and ChoiceInline classes here
-class ChoiceInline(admin.TabularInline):
+class ChoiceInline(admin.StackedInline):
     model = Choice
-    extra = 3
+    extra = 5
 
-class QuestionAdmin(admin.ModelAdmin):
+class QuestionInline(admin.StackedInline):
     model = Question
-    inlines = [ChoiceInline]
+    inlines = 5
 
 class LessonInline(admin.StackedInline):
     model = Lesson
@@ -28,7 +28,13 @@ class CourseAdmin(admin.ModelAdmin):
 class LessonAdmin(admin.ModelAdmin):
     list_display = ['title']
 
+class QuestionAdmin(admin.ModelAdmin):
+    list_display = ['question_text']
+    inlines = [ChoiceInline]
 
+class ChoiceAdmin(admin.ModelAdmin):
+    list_display = ['choice_text']
+    
 # <HINT> Register Question and Choice models here
 
 admin.site.register(Question, QuestionAdmin)
